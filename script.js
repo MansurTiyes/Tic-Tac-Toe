@@ -86,11 +86,11 @@ class Board{
   checkWhoWon(player1Symbol, player2Symbol) {
     let gameState = this.checkScore();
     if (gameState == player1Symbol) {
-      console.log("Player 1 won!");
+      return "Player 1 won!";
     } else if (gameState == player2Symbol) {
-      console.log("Player 2 won!");
+      return "Player 2 won!";
     } else if (gameState == "DRAW") {
-      console.log("Draw!");
+      return "Draw!";
     }
   }
 }
@@ -103,11 +103,22 @@ class Game{
     this.currentPlayer = this.player1;
   }
 
-  turnGame(gridPosition){
+  turnGame(gridPosition, object){
     let gameFinished = false;
+    let outputField = document.querySelector('.outputField');
     let [x,y] = this.board.convertInputToPosition(gridPosition);
       if (this.board.checkMoveLegal(x, y)){
         this.board.addSymbolToTheBoard(this.currentPlayer.symbol, x, y);
+        if (this.currentPlayer.symbol == "x"){
+          let symbolhtml = document.createElement('IMG');
+          symbolhtml.src = "images/tic-tac-toe-X.png";
+          object.appendChild(symbolhtml);
+        }
+        else {
+          let symbolhtml = document.createElement('IMG');
+          symbolhtml.src = "images/tic-tac-toe-O (1).png";
+          object.appendChild(symbolhtml);
+        }
         if (this.board.checkScore()=="IN PROGRESS"){
           if (this.currentPlayer == this.player1)
             this.currentPlayer = this.player2;
@@ -116,15 +127,17 @@ class Game{
           }
         }
         else {
-          this.board.checkWhoWon(this.player1.symbol, this.player2.symbol);
+          //console.log(this.board.checkWhoWon(this.player1.symbol, this.player2.symbol));
+          let message = document.createElement('div');
+          message.textContent = this.board.checkWhoWon(this.player1.symbol, this.player2.symbol);
+          outputField.appendChild(message);
           gameFinished = true;
         }
       }
       else {
         console.log("Please input the  possible value")
       }
-      console.log(this.board);
-      //ADD SOMETHING THAT SHOWS THAT GAME FINISHED
+      //ADD SOMETHING THAT DOES SOMETHING WHEN THE GAME IS FINISHED
   }
 }
 
@@ -132,16 +145,7 @@ let game = new Game();
 let gridElement = document.querySelectorAll('.gridElement');
   for (let i = 0; i<gridElement.length; i++){
     gridElement[i].addEventListener('click', function(e){
-      game.turnGame(e.target.id);
-      let symbolhtml = document.createElement('IMG');
-      if (game.currentPlayer.symbol == "x"){
-        symbolhtml.src = "images/tic-tac-toe-X.png";
-        gridElement[i].appendChild(symbolhtml);
-      }
-      else if (game.currentPlayer.symbol == "o") {
-        symbolhtml.src = "images/circle.png";
-        gridElement[i].appendChild(symbolhtml);
-      }
+      game.turnGame(e.target.id, gridElement[i]);
     })
 }
 
