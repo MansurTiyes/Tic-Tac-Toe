@@ -1,0 +1,52 @@
+body{
+    background-color: black;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+h1{
+    align-self: center;
+    font-size: 60px;
+}
+
+.playingGrid{
+   display: grid;
+   grid-template-columns: 300px 300px 300px;
+   grid-template-rows: 200px 200px 200px;
+   align-self: center;
+   grid-column-gap: 5px;
+   grid-row-gap: 5px;
+}
+
+.gridElement{
+    background-color: white;
+    border-style: solid;
+    border: black;
+    border-width: 10px;
+}
+
+.buttonField{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 150px;
+}
+
+button{
+    height: 100px;
+    width: 150px;
+    font-size: 20px;
+    border-color: solid white;
+    background-color: black;
+    color: white;
+    border-width: 10px;
+    font-weight: bold;
+}
+
+img {
+    width: 300px;
+    height: 200px;
+}
