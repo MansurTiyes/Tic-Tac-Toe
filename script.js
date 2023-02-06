@@ -1,10 +1,19 @@
+
+
 class Player{
+  /**
+     * constructor function that sets the symbol of the player
+     * @param {string} symbol - symbol of the player (x or o)
+     */
   constructor(symbol){
     this.symbol = symbol;
   }
 }
 
 class Board{
+  /**
+   * constructor function that sets the initial state of the board
+   */
   constructor(){
     this.board = [
       [0,0,0],
@@ -13,8 +22,11 @@ class Board{
     ]
   }
 
-  //Method that converts corresponding input number to the position on board array
-  //Parametr: user input
+  /**
+   * Method that converts the user input number to corresponding position on the board array
+   * @param {number} input - user input number (1-9)
+   * @return {array} - [y, x] position on the board array
+   */
   convertInputToPosition(input){
     if (input>=1 && input<=3){
       return [0, input-1];
@@ -27,8 +39,12 @@ class Board{
     }
   }
 
-  //Method that checks if move is legal or not
-  //Parametr: x and y position on the board array
+  /**
+   * Method that checks if the move is legal or not
+   * @param {number} x - x position on the board array
+   * @param {number} y - y position on the board array
+   * @return {boolean} - returns true if the move is legal, false otherwise
+   */
   checkMoveLegal(x, y){
     if (this.board[y][x] == 0){
       return true;
@@ -38,12 +54,20 @@ class Board{
     }
   }
 
-  //Method that adds symbol to the board on corresponding place
-  //Parameters: takes symbol of the player, x position on the array, y position on the array
+  /**
+   * Method that adds the symbol to the board on the corresponding position
+   * @param {string} symbol - symbol of the player (x or o)
+   * @param {number} x - x position on the board array
+   * @param {number} y - y position on the board array
+   */
   addSymbolToTheBoard(symbol, x, y){
     this.board[y][x] = symbol;
   }
 
+  /**
+   * Method that checks the score of the game
+   * @return {string} - returns "Player 1 won!", "Player 2 won!", "Draw!", or "IN PROGRESS"
+   */
   checkScore(){
     for (let i = 0; i < 3; i++) {
       if (this.board[i][0] === this.board[i][1] && this.board[i][1] === this.board[i][2] && this.board[i][0] !== 0) {
@@ -96,6 +120,10 @@ class Board{
 }
 
 class Game{
+  /**
+   * Constructor that sets properties before the game and initiates objects
+   * Creates two players, new board, and initializes the current player as player 1
+   */
   constructor(){
     this.player1 = new Player("x");
     this.player2 = new Player("o");
@@ -103,6 +131,11 @@ class Game{
     this.currentPlayer = this.player1;
   }
 
+  /**
+   * Method that initiates one turn of the game of Tic-Tac-Toe
+   * @param {integer} gridPosition 
+   * @param {DOM Element} object 
+   */
   turnGame(gridPosition, object){
     let gameFinished = false;
     let outputField = document.querySelector('.outputField');
@@ -127,7 +160,6 @@ class Game{
           }
         }
         else {
-          //console.log(this.board.checkWhoWon(this.player1.symbol, this.player2.symbol));
           let message = document.createElement('div');
           message.textContent = this.board.checkWhoWon(this.player1.symbol, this.player2.symbol);
           outputField.appendChild(message);
@@ -137,10 +169,10 @@ class Game{
       else {
         console.log("Please input the  possible value")
       }
-      //ADD SOMETHING THAT DOES SOMETHING WHEN THE GAME IS FINISHED
   }
 }
 
+//Initaition of game object and attachement of turnGame method to every single grid on the DOM Tree through event listeners
 let game = new Game();
 let gridElement = document.querySelectorAll('.gridElement');
   for (let i = 0; i<gridElement.length; i++){
@@ -148,6 +180,21 @@ let gridElement = document.querySelectorAll('.gridElement');
       game.turnGame(e.target.id, gridElement[i]);
     })
 }
+
+//Functionality for the reset button
+let reset = document.querySelector('.reset');
+reset.addEventListener('click', function(e){
+  game.board = [
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+  ]
+
+  let gridElement = document.querySelectorAll('.gridElement');
+  for (let i = 0; gridElement.length; i++){
+    gridElement[i].innerHTML = "";
+  }
+})
 
 
 
